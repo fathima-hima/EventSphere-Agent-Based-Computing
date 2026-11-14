@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
+from ..dependencies import get_current_user
 
 from ..database import get_db
 from ..models import User
@@ -94,3 +95,10 @@ def login_user(
         "access_token": token,
         "token_type": "bearer"
     }
+
+    # AUTHENTICATED USER: Return the details of the currently logged-in user
+@router.get("/me", response_model=UserResponse)
+def read_current_user(
+    current_user: User = Depends(get_current_user)
+):
+    return current_user
