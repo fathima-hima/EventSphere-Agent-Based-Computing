@@ -1,6 +1,7 @@
 
 from fastapi import FastAPI
 
+from .routers.admin import router as admin_router
 from .database import Base, engine
 from . import models
 from .routers.auth import router as auth_router
@@ -16,7 +17,8 @@ app = FastAPI(
 
 # Register authentication routes
 app.include_router(auth_router)
-
+# Register admin routes
+app.include_router(admin_router)
 
 @app.get("/")
 def home():
@@ -29,3 +31,4 @@ def home():
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}
+
