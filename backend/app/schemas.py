@@ -97,3 +97,21 @@ class EventUpdate(BaseModel):
     capacity: int | None = Field(default=None, gt=0)
     ticket_price: float | None = Field(default=None, ge=0)
     venue_id: int | None = None
+
+    # BOOKING SCHEMAS
+
+class BookingCreate(BaseModel):
+    event_id: int
+    quantity: int = Field(gt=0, le=10)
+
+
+class BookingResponse(BaseModel):
+    id: int
+    quantity: int
+    total_amount: float
+    status: str
+    payment_reference: str | None
+    attendee_id: int
+    event_id: int
+
+    model_config = ConfigDict(from_attributes=True)

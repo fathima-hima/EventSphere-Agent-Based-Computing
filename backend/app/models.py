@@ -82,3 +82,65 @@ class Booking(Base):
 
     attendee = relationship("User", back_populates="bookings")
     event = relationship("Event", back_populates="bookings")
+
+
+import secrets
+
+class Ticket(Base):
+    __tablename__ = "tickets"
+
+    id = Column(Integer, primary_key=True, index=True)
+    booking_id = Column(Integer, ForeignKey("bookings.id"), nullable=False)
+    event_id = Column(Integer, ForeignKey("events.id"), nullable=False)
+    attendee_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+
+    # Each ticket receives a unique, unguessable QR token
+    qr_token = Column(String(100), unique=True, nullable=False, default=lambda: secrets.token_urlsafe(32))
+
+    status = Column(String(20), default="valid")
+    checked_in = Column(Boolean, default=False)
+    checked_in_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+
+# WAITLIST MODEL
+class WaitlistEntry(Base):
+    __tablename__ = "waitlist_entries"
+
+    id = Column(Integer, primary_key=True, index=True)
+    attendee_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    event_id = Column(Integer, ForeignKey("events.id"), nullable=False)
+    quantity = Column(Integer, nullable=False, default=1)
+    status = Column(String(30), default="waiting")
+    created_at = Column(DateTime, default=datetime.utcnow)
+    expires_at = Column(DateTime, nullable=True)
+
+
+# PRIVATE VENUE HIRE MODEL
+class VenueHireRequest(Base):
+    __tablename__ = "venue_hire_requests"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    venue_id = Column(Integer, ForeignKey("venues.id"), nullable=False)
+    event_title = Column(String(150), nullable=False)
+    start_time = Column(DateTime, nullable=False)
+    end_time = Column(DateTime, nullable=False)
+    expected_attendees = Column(Integer, nullable=False)
+    estimated_price = Column(Float, nullable=False, default=0)
+    status = Column(String(30), default="pending")
+    admin_decision = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+# AGENT COMMUNICATION LOG MODEL
+class AgentMessage(Base):
+    __tablename__ = "agent_messages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    sender = Column(String(100), nullable=False)
+    receiver = Column(String(100), nullable=False)
+    performative = Column(String(30), nullable=False)
+    message_content = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
