@@ -6,6 +6,12 @@ from ..dependencies import require_roles
 from sqlalchemy import func
 from ..models import Event, Venue, Booking, Ticket
 
+from sqlalchemy.orm import Session
+
+from ..database import get_db
+from ..models import User, Event, Venue, Booking, Ticket
+from ..dependencies import require_roles
+
 # Router for administrator-only operations
 router = APIRouter(
     prefix="/api/admin",

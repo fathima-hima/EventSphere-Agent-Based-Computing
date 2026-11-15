@@ -1,0 +1,121 @@
+
+body {
+    background: #f4f6fb;
+    font-family: Arial, sans-serif;
+    color: #252b42;
+}
+
+.navbar {
+    background: #202b5c;
+}
+
+.navbar-brand {
+    font-size: 25px;
+    letter-spacing: 1px;
+}
+
+.hero {
+    background: linear-gradient(120deg, #263a91, #7356c9);
+    color: white;
+    padding: 85px 20px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    font-weight: bold;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-top: 15px;
+}
+
+.section-title {
+    font-weight: bold;
+    color: #263a91;
+    margin-bottom: 25px;
+}
+
+.content-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.event-card {
+    background: white;
+    border: none;
+    border-radius: 12px;
+    padding: 22px;
+    height: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.event-card h5 {
+    color: #263a91;
+    font-weight: bold;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card h3 {
+    color: #263a91;
+    font-weight: bold;
+}
+
+.ticket-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.ticket-card img {
+    max-width: 180px;
+    margin: 15px auto;
+}
+
+footer {
+    background: #202b5c;
+    color: white;
+    margin-top: 60px;
+}
+
+button {
+    border-radius: 7px !important;
+}
+
+#qr-reader {
+    max-width: 450px;
+}
+
+.d-none {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 55px 15px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .navbar .container {
+        gap: 12px;
+    }
+}

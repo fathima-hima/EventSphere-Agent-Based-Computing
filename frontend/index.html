@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventSphere | Event Booking</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">EventSphere</a>
+
+        <div class="d-flex gap-2 flex-wrap">
+            <button class="btn btn-outline-light btn-sm" onclick="showSection('eventsSection')">Events</button>
+            <button class="btn btn-outline-light btn-sm" onclick="showSection('bookingsSection')">My Bookings</button>
+            <button class="btn btn-outline-light btn-sm" onclick="showSection('ticketsSection')">My Tickets</button>
+            <button class="btn btn-outline-light btn-sm" onclick="showSection('staffSection')">Gate Staff</button>
+            <button class="btn btn-outline-light btn-sm" onclick="showSection('adminSection')">Admin</button>
+            <button class="btn btn-warning btn-sm" id="logoutBtn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+</nav>
+
+<header class="hero text-center">
+    <div class="container">
+        <h1>Discover. Book. Experience.</h1>
+        <p>Your events, your moments, all in one place.</p>
+        <button class="btn btn-light" onclick="showSection('eventsSection')">
+            Explore Events
+        </button>
+    </div>
+</header>
+
+<main class="container my-5">
+
+    <!-- AUTHENTICATION -->
+    <section id="authSection" class="section">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="content-card">
+                    <h3 class="text-center mb-4">Welcome to EventSphere</h3>
+
+                    <div id="loginForm">
+                        <h5>Login</h5>
+
+                        <input type="email" id="loginEmail" class="form-control mb-3" placeholder="Email">
+
+                        <input type="password" id="loginPassword" class="form-control mb-3" placeholder="Password">
+
+                        <button class="btn btn-primary w-100" onclick="login()">Login</button>
+
+                        <p class="text-center mt-3">
+                            Don't have an account?
+                            <a href="#" onclick="toggleAuth()">Register</a>
+                        </p>
+                    </div>
+
+                    <div id="registerForm" class="d-none">
+                        <h5>Create Account</h5>
+
+                        <input type="text" id="registerName" class="form-control mb-3" placeholder="Full name">
+
+                        <input type="email" id="registerEmail" class="form-control mb-3" placeholder="Email">
+
+                        <input type="password" id="registerPassword" class="form-control mb-3" placeholder="Password">
+
+                        <button class="btn btn-success w-100" onclick="register()">Register</button>
+
+                        <p class="text-center mt-3">
+                            Already registered?
+                            <a href="#" onclick="toggleAuth()">Login</a>
+                        </p>
+                    </div>
+
+                    <p id="authMessage" class="mt-3 text-center"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section id="eventsSection" class="section d-none">
+        <h2 class="section-title">Upcoming Events</h2>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <input type="text" id="eventSearch" class="form-control"
+                    placeholder="Search events..." oninput="filterEvents()">
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-primary mt-2 mt-md-0" onclick="loadEvents()">
+                    Refresh Events
+                </button>
+            </div>
+        </div>
+
+        <div class="row g-4" id="eventsList"></div>
+    </section>
+
+    <!-- MY BOOKINGS -->
+    <section id="bookingsSection" class="section d-none">
+        <h2 class="section-title">My Bookings</h2>
+        <div id="bookingsList"></div>
+    </section>
+
+    <!-- MY TICKETS -->
+    <section id="ticketsSection" class="section d-none">
+        <h2 class="section-title">My Digital Tickets</h2>
+        <div class="row g-4" id="ticketsList"></div>
+    </section>
+
+    <!-- GATE STAFF -->
+    <section id="staffSection" class="section d-none">
+        <h2 class="section-title">Gate Staff Check-in</h2>
+
+        <div class="content-card">
+            <h5>Scan a ticket QR code</h5>
+
+            <div id="qr-reader" class="mb-3"></div>
+
+            <button class="btn btn-primary mb-3" onclick="startScanner()">
+                Start Camera Scanner
+            </button>
+
+            <button class="btn btn-secondary mb-3" onclick="stopScanner()">
+                Stop Scanner
+            </button>
+
+            <hr>
+
+            <h5>Manual Check-in</h5>
+
+            <input type="text" id="qrToken" class="form-control mb-3"
+                placeholder="Enter QR token">
+
+            <input type="number" id="checkinEventId" class="form-control mb-3"
+                placeholder="Event ID">
+
+            <button class="btn btn-success" onclick="checkInTicket()">
+                Verify and Check In
+            </button>
+
+            <p id="checkinMessage" class="mt-3"></p>
+        </div>
+    </section>
+
+    <!-- ADMIN DASHBOARD -->
+    <section id="adminSection" class="section d-none">
+        <h2 class="section-title">Admin Dashboard</h2>
+
+        <button class="btn btn-primary mb-4" onclick="loadAdminStats()">
+            Refresh Dashboard
+        </button>
+
+        <div class="row g-3" id="statsList"></div>
+
+        <div class="content-card mt-4">
+            <h5>Agent System</h5>
+            <button class="btn btn-outline-primary" onclick="loadAgentStatus()">
+                View Agent Status
+            </button>
+            <div id="agentStatus" class="mt-3"></div>
+        </div>
+
+        <div class="content-card mt-4">
+            <h5>Recent Agent Messages</h5>
+            <button class="btn btn-outline-primary" onclick="loadAgentMessages()">
+                Load Agent Logs
+            </button>
+            <div id="agentMessages" class="mt-3"></div>
+        </div>
+    </section>
+
+    <div id="globalMessage" class="alert d-none mt-4"></div>
+
+</main>
+
+<footer class="text-center py-4">
+    <p class="mb-0">© 2026 EventSphere | Agent-Based Event Management Platform</p>
+</footer>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="/app.js"></script>
+
+</body>
+</html>
