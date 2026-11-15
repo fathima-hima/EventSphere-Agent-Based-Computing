@@ -7,6 +7,7 @@ from . import models
 from .routers.auth import router as auth_router
 from .routers.staff import router as staff_router
 from .routers.venues import router as venues_router
+from .routers.events import router as events_router
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -25,6 +26,8 @@ app.include_router(admin_router)
 app.include_router(staff_router)
 
 app.include_router(venues_router)
+
+app.include_router(events_router)
 
 @app.get("/")
 def home():

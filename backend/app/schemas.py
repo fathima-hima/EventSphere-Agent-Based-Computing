@@ -59,3 +59,41 @@ class VenueUpdate(BaseModel):
     capacity: int | None = Field(default=None, gt=0)
     description: str | None = None
     is_available: bool | None = None
+
+from datetime import datetime
+
+# EVENT SCHEMAS
+
+class EventCreate(BaseModel):
+    title: str = Field(min_length=2, max_length=150)
+    description: str | None = None
+    start_time: datetime
+    end_time: datetime
+    capacity: int = Field(gt=0)
+    ticket_price: float = Field(ge=0)
+    venue_id: int
+
+
+class EventResponse(BaseModel):
+    id: int
+    title: str
+    description: str | None
+    start_time: datetime
+    end_time: datetime
+    capacity: int
+    ticket_price: float
+    status: str
+    venue_id: int
+    organiser_id: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class EventUpdate(BaseModel):
+    title: str | None = Field(default=None, min_length=2, max_length=150)
+    description: str | None = None
+    start_time: datetime | None = None
+    end_time: datetime | None = None
+    capacity: int | None = Field(default=None, gt=0)
+    ticket_price: float | None = Field(default=None, ge=0)
+    venue_id: int | None = None
